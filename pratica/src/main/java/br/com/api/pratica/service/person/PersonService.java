@@ -1,6 +1,5 @@
 package br.com.api.pratica.service.person;
 
-import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,14 +24,15 @@ public class PersonService implements IPersonService {
         return person.getCpf().toString();
     }
 
-    public String createCar(Long cpf, Car request){
+    public String createCar(Long cpf, CreateCarRequest request){
+        var car = new Car(request.brand, request.color, request.model);
         Person person = _PersonRepository.findPersonByCpf(cpf)
                 .orElseThrow(() -> new RuntimeException("Documento não encontrado"));
-        person.getCars().add(request);
+        person.getCars().add(car);
 
         _PersonRepository.save(person);
 
-        return person.getCpf().toString();
+        return person.getCpf().toString() + " " + car.getChassi();
     }
 
     public ResponseEntity<?> select(){
@@ -40,5 +40,6 @@ public class PersonService implements IPersonService {
         return new ResponseEntity<>(_PersonRepository.findAll(), HttpStatus.OK);
 
     }
+
 
 }

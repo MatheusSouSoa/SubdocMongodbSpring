@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.pratica.entities.Car;
+import br.com.api.pratica.service.person.CreateCarRequest;
 import br.com.api.pratica.service.person.CreatePersonRequest;
 import br.com.api.pratica.service.person.IPersonService;
 
@@ -37,11 +37,12 @@ public class PersonController {
     }
 
     @PostMapping("/{cpf}/cars")
-    public ResponseEntity<String> addCar(@PathVariable Long cpf, @RequestBody Car request){
+    public ResponseEntity<String> addCar(@PathVariable Long cpf, @RequestBody CreateCarRequest request){
         
         var response = _PersonService.createCar(cpf, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }
+
 }
